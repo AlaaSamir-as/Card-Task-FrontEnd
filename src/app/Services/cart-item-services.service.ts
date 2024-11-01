@@ -11,23 +11,23 @@ export class CartItemServicesService {
   CartItems = this.Items.asObservable();
   constructor() { }
 
-  AddCartItem(Product: Product){
-    const ExistingCartItem = this.Items.value.find(item => item.ProductId === Product.ID);
+  AddCartItem(ProductParam: Product){
+    const ExistingCartItem = this.Items.value.find(item => item.Product.id === ProductParam.id);
     if(ExistingCartItem){
       ExistingCartItem.Quantity ++;
     }else{
-      this.Items.value.push({ProductId: Product.ID, Quantity: 1});
+      this.Items.value.push({Product: ProductParam, Quantity: 1 });
     }
     this.Items.next([...this.Items.value]);
   }
 
   UpdateCartItem(ProductId :number, Quantity :number){
-    this.Items.value.map(item => item.ProductId === ProductId ? item.Quantity =Quantity : item);
+    this.Items.value.map(item => item.Product.id === ProductId ? item.Quantity =Quantity : item);
     this.Items.next([...this.Items.value]);
   }
 
   RemoveCartItem(ProductId :number){
-    this.Items.value.filter(item => item.ProductId !== ProductId);
-    this.Items.next([...this.Items.value]);
+    let NewCartItems= this.Items.value.filter(item => item.Product.id !== ProductId);
+    this.Items.next(NewCartItems);
   }
 }
