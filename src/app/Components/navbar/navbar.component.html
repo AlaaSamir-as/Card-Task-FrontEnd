@@ -1,0 +1,23 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container">
+    <!-- Brand Name -->
+    <a class="navbar-brand" routerLink="">Cart Task</a>
+
+    <!-- Navbar Links -->
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/Products">Home</a>
+        </li>
+      </ul>
+
+      <!-- Cart Icon on the Right -->
+      <a class="nav-link position-relative" routerLink="/CartItems">
+        <i class="fa fa-shopping-cart fa-lg"></i>
+        <span class="badge rounded-pill bg-danger position-absolute top-0 start-100 translate-middle"
+          *ngIf="cartItemCount > 0"> {{ cartItemCount }}
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>

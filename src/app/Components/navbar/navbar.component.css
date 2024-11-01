@@ -1,0 +1,18 @@
+.navbar {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.badge-pill {
+  font-size: 0.8rem;
+  padding: 4px 8px;
+}
+
+.nav-link.position-relative {
+  display: inline-block;
+}
+
+.badge {
+  top: 8px;
+  right: -22px;
+  color: red;
+}
