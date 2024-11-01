@@ -1,1 +1,56 @@
-<p>products works!</p>
+<div class="container mt-4">
+  <!-- Product List Header -->
+  <h2 class="text-center mb-4">Product List</h2>
+  <!-- Search Filter Bar -->
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label for="categorySelect" class="form-label">Filter by Category</label>
+      <select
+        id="categorySelect"
+        class="form-select"
+        [(ngModel)]="SelectedCategoryId"
+        (change)="FilterProductsByCategory()"
+      >
+        <option [value]="0">All Categories</option>
+        <option *ngFor="let category of Categories" [value]="category.id">
+          {{ category.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <!-- Product Grid -->
+  <div class="row">
+    <div class="col-md-4 mb-4" *ngFor="let product of Products">
+      <div class="card h-100 shadow-sm">
+        <img [src]="product.imageUrl" class="card-img-top" alt="{{ product.name }}" />
+        <div class="card-body text-center">
+          <h5 class="card-title">{{ product.name }}</h5>
+          <p class="card-text">{{ product.price | currency }}</p>
+          <button (click)="AddItemToCart(product)" class="btn btn-primary btn-block">
+            Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Product list pagination" *ngIf="TotalPages > 1">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="Page === 1">
+        <a class="page-link" (click)="Page = Page - 1; LoadProducts()" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li *ngFor="let page of [].constructor(TotalPages); let i = index"
+          class="page-item" [class.active]="i + 1 === Page">
+        <a class="page-link" (click)="Page = i + 1; LoadProducts()">{{ i + 1 }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="Page === TotalPages">
+        <a class="page-link" (click)="Page = Page + 1; LoadProducts()" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
