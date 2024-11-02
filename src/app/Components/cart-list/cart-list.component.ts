@@ -20,17 +20,33 @@ export class CartListComponent implements OnInit{
   GetCartItemsWithTotalPrice():void{
     this.CartItemService.CartItems.subscribe(
       CT => {this.CartItems = CT ;
-              this.TotalItems = CT.reduce((acc, item) => acc + item.Quantity, 0);
-              this.TotalPrice = CT.reduce((acc, item) => acc + item.Product.price * item.Quantity, 0);
+              this.TotalItems = CT.reduce((acc, item) => acc + item.quantity, 0);
+              this.TotalPrice = CT.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
           }
     );
   }
 
   UpdateCartItem(ProductID :number, Quantity:number) : void{
-    this.CartItemService.UpdateCartItem(ProductID, Quantity );
+    this.CartItemService.UpdateCartItem(ProductID ,Quantity).subscribe({
+      next: () => {
+          this.CartItemService.refreshCartItems();
+          alert("UpdateSucessfully");
+      },
+      error: (error) => {
+        console.error('Error removing item from cart:', error);
+      }
+    });
   }
 
   RemoveCartItem(ProductID :number) : void{
-    this.CartItemService.RemoveCartItem(ProductID);
+    this.CartItemService.RemoveCartItem(ProductID).subscribe({
+      next: () => {
+        this.CartItemService.refreshCartItems();
+        alert("RemoveSucessfully");
+      },
+      error: (error) => {
+        console.error('Error removing item from cart:', error);
+      }
+    });
   }
 }

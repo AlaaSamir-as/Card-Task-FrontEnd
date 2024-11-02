@@ -15,8 +15,8 @@ export class ProductsComponent implements OnInit {
   Categories : Category[] = [];
   Page : number = 1;
   PageSize : number = 3;
-  TotalPages : number = 1;
   SelectedCategoryId : number = 0;
+  IsLastPage: boolean = false;
 
   constructor(private ProductService: ProductServicesService , private CartItemService : CartItemServicesService
     , private CategoryService : CategoryServicesService ){}
@@ -34,7 +34,7 @@ export class ProductsComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.Products = data;
-        this.TotalPages= Math.ceil(this.Products.length / this.PageSize)
+        this.IsLastPage = (data.length<this.PageSize);
       },
       error: (error) => {
         console.error('Error loading products:', error);
@@ -42,10 +42,27 @@ export class ProductsComponent implements OnInit {
     });
   }
   AddItemToCart(Product:Product) : void {
-    this.CartItemService.AddCartItem(Product);
+    this.CartItemService.AddCartItem(Product.id).subscribe({
+      next: () => {
+        this.CartItemService.refreshCartItems();
+        alert("AddSucessfully");
+      },
+      error: (error) => {
+        // Optionally, show an error message to the user
+      }
+    });
   }
 
   FilterProductsByCategory(): void {
     this.LoadProducts();
   }
+
+
+////////////////////////////////////////////////////////////////
+/// IF want Static Data
+////////////////////////////////////////////////////////////////
+  // AddItemToCart(Product:Product) : void {
+  //   this.CartItemService.AddCartItem(Product);
+  // }
+
 }

@@ -35,18 +35,14 @@
   </div>
 
   <!-- Pagination Controls -->
-  <nav aria-label="Product list pagination" *ngIf="TotalPages > 1">
+  <nav aria-label="Product list pagination">
     <ul class="pagination justify-content-center">
       <li class="page-item" [class.disabled]="Page === 1">
         <a class="page-link" (click)="Page = Page - 1; LoadProducts()" aria-label="Previous">
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-      <li *ngFor="let page of [].constructor(TotalPages); let i = index"
-          class="page-item" [class.active]="i + 1 === Page">
-        <a class="page-link" (click)="Page = i + 1; LoadProducts()">{{ i + 1 }}</a>
-      </li>
-      <li class="page-item" [class.disabled]="Page === TotalPages">
+      <li class="page-item" [class.disabled]="IsLastPage">
         <a class="page-link" (click)="Page = Page + 1; LoadProducts()" aria-label="Next">
           <span aria-hidden="true">&raquo;</span>
         </a>
